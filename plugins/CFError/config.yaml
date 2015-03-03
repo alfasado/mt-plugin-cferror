@@ -1,0 +1,17 @@
+id  : CFError
+key : cferror
+name: CFError
+version: 1.0
+description: Custom Error Template for ContactForm.
+callbacks:
+    MT::App::ContactForm::template_source.error: >
+            sub {
+                my ( $cb, $app, $tmpl ) = @_;
+                my $component = MT->component( 'CFError' );
+                require  File::Spec;
+                require MT::FileMgr;
+                my $path = File::Spec->catfile( $component->path, 'tmpl', 'error.tmpl' );
+                my $fmgr = MT::FileMgr->new( 'Local' );
+                my $data = $fmgr->get_data( $path );
+                $$tmpl = $data;
+            }
